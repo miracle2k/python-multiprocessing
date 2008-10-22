@@ -31,8 +31,8 @@ sdist: realclean
 
 examples: inplace
 	@echo -n "\n"
-	for EXAMPLE in benchmarks distributing newtype pool synchronize workers; do \
-		echo "Running example from file examples/mp_$${EXAMPLE}.py"; \
+	@for EXAMPLE in distributing newtype pool synchronize benchmarks workers; do \
+		echo "*** Running example examples/mp_$${EXAMPLE}.py"; \
 		PYTHONPATH=$(PYTHONPATH) $(PYTHON) examples/mp_$${EXAMPLE}.py || exit 1; \
 		echo -n "\n***********************\n\n"; \
 	done
