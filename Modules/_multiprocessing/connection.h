@@ -248,7 +248,73 @@ _error:
 	result = NULL;
 	goto _cleanup;
 }
-#endif /* new buffer protocol */
+
+#else /* old buffer protocol */
+
+static PyObject *
+connection_recvbytes_into(ConnectionObject *self, PyObject *args) 
+{
+	char *freeme = NULL, *buffer = NULL;
+	Py_ssize_t res, offset = 0;
+	int length = 0;
+	PyObject *result = NULL;
+
+	CHECK_READABLE(self);
+	
+	if (!PyArg_ParseTuple(args, "w#|" F_PY_SSIZE_T, 
+			      &buffer, &length, &offset))
+		return NULL;
+
+	if (offset < 0) {
+		PyErr_SetString(PyExc_ValueError, "negative offset");
+		goto _error;
+	}   
+
+	if (offset > length) {
+		PyErr_SetString(PyExc_ValueError, "offset too large");
+		goto _error;
+	}
+
+	res = conn_recv_string(self, buffer+offset, length-offset, 
+			       &freeme, PY_SSIZE_T_MAX);
+
+	if (res < 0) {
+		if (res == MP_BAD_MESSAGE_LENGTH) {
+			if ((self->flags & WRITABLE) == 0) {
+				Py_BEGIN_ALLOW_THREADS
+				CLOSE(self->handle);
+				Py_END_ALLOW_THREADS
+				self->handle = INVALID_HANDLE_VALUE;
+			} else {
+				self->flags = WRITABLE;
+			}
+		}
+		mp_SetError(PyExc_IOError, res);
+	} else {
+		if (freeme == NULL) {
+			result = PyInt_FromSsize_t(res);
+		} else {
+			result = PyObject_CallFunction(BufferTooShort, 
+						       F_RBUFFER "#", 
+						       freeme, res);
+			PyMem_Free(freeme);
+			if (result) {
+				PyErr_SetObject(BufferTooShort, result);
+				Py_DECREF(result);
+			}
+			goto _error;
+		}
+	}
+
+_cleanup:
+	return result;
+
+_error:
+	result = NULL;
+	goto _cleanup;
+}
+#endif /* buffer */
+
 
 /*
  * Functions for transferring objects
@@ -434,12 +500,9 @@ static PyMethodDef connection_methods[] = {
 	 "send the byte data from a readable buffer-like object"},
 	{"recv_bytes", (PyCFunction)connection_recvbytes, METH_VARARGS, 
 	 "receive byte data as a string"},
-
-#ifdef HAS_NEW_PY_BUFFER
 	{"recv_bytes_into",(PyCFunction)connection_recvbytes_into,METH_VARARGS,
 	 "receive byte data into a writeable buffer-like object\n"
 	 "returns the number of bytes read"},
-#endif
 
 	{"send", (PyCFunction)connection_send_obj, METH_O, 
 	 "send a (picklable) object"},

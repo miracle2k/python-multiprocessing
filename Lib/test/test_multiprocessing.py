@@ -1228,7 +1228,8 @@ class _TestConnection(BaseTestCase):
                              len(arr) * buffer.itemsize)
             self.assertEqual(list(buffer), expected)
 
-            buffer = bytearray(latin(' ' * 40))
+            #buffer = bytearray(latin(' ' * 40))
+            buffer = array.array('i', [0] * 10)
             self.assertEqual(conn.send_bytes(longmsg), None)
             try:
                 res = conn.recv_bytes_into(buffer)
