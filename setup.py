@@ -95,6 +95,11 @@ extensions = [
               ),
     ]
 
+if sys.version_info < (2, 5):
+    extensions.append(
+        Extension('multiprocessing._mmap25', sources=["Modules/mmapmodule.c"])
+        )
+
 packages = [
     'multiprocessing',
     'multiprocessing.dummy',

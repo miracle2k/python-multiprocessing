@@ -18,6 +18,31 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
+/* Python 2.4 compat */
+/* XXX POSSIBLY HARMFUL [ch]
+   Verify all aliases are doing their job w/o breaking
+   especially PyNumber_AsSsize_t looks suspicious
+*/
+typedef long Py_ssize_t;
+#define PY_SSIZE_T_MAX INT_MAX
+#define PY_SSIZE_T_MIN INT_MIN
+#define PyInt_FromSsize_t(n) PyInt_FromLong(n)
+#define PyInt_FromSize_t(n) PyLong_FromUnsignedLong(n)
+#define PyIndex_Check(n) (PyInt_Check(n) || PyLong_Check(n))
+#define PyNumber_AsSsize_t(n, exc) PyLong_AsLong(n)
+
+#define lenfunc inquiry
+#define ssizeargfunc intargfunc
+#define ssizessizeargfunc intintargfunc
+#define ssizeobjargproc intobjargproc
+#define ssizessizeobjargproc intintobjargproc
+#define readbufferproc getreadbufferproc
+#define writebufferproc getreadbufferproc
+#define segcountproc getsegcountproc
+#define charbufferproc getcharbufferproc
+
+/* end of 2.4 */
+
 #ifndef MS_WINDOWS
 #define UNIX
 #endif
@@ -1140,14 +1165,14 @@ setint(PyObject *d, const char *name, long value)
 }
 
 PyMODINIT_FUNC
-	initmmap(void)
+	init_mmap25(void)
 {
 	PyObject *dict, *module;
 
 	/* Patch the object type */
 	mmap_object_type.ob_type = &PyType_Type;
 
-	module = Py_InitModule("mmap", mmap_functions);
+	module = Py_InitModule("_mmap25", mmap_functions);
 	if (module == NULL)
 		return;
 	dict = PyModule_GetDict(module);

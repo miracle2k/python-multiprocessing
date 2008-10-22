@@ -7,12 +7,16 @@
 #
 
 import bisect
-import mmap
 import tempfile
 import os
 import sys
 import threading
 import itertools
+
+if sys.version_info < (2, 5):
+    import multiprocessing._mmap25 as mmap
+else:
+    import mmap
 
 import _multiprocessing
 from multiprocessing.util import Finalize, info
