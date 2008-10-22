@@ -964,7 +964,7 @@ class AcquirerProxy(BaseProxy):
 
 class ConditionProxy(AcquirerProxy):
     # XXX will Condition.notfyAll() name be available in Py3.0?
-    _exposed_ = ('acquire', 'release', 'wait', 'notify', 'notify_all')
+    _exposed_ = ('acquire', 'release', 'wait', 'notify', 'notify_all', 'notifyAll')
     def wait(self, timeout=None):
         return self._callmethod('wait', (timeout,))
     def notify(self):
