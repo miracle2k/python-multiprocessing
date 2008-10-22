@@ -26,6 +26,9 @@ try:
 except OSError:
     ORIGINAL_DIR = None
 
+# forward compatibility
+bytes = str
+
 #
 # Public functions
 #
@@ -131,41 +134,43 @@ class Process(object):
             return False
         self._popen.poll()
         return self._popen.returncode is None
-
-    @property
-    def name(self):
+    
+    isAlive = is_alive
+    
+    def _get_name(self):
         return self._name
 
-    @name.setter
-    def name(self, name):
+    def _set_name(self, name):
         assert isinstance(name, str), 'name must be a string'
         self._name = name
 
-    @property
-    def daemon(self):
+    name = property(_get_name, _set_name)
+
+    def _get_daemon(self):
         '''
         Return whether process is a daemon
         '''
         return self._daemonic
 
-    @daemon.setter
-    def daemon(self, daemonic):
+    def _set_daemon(self, daemonic):
         '''
         Set whether process is a daemon
         '''
         assert self._popen is None, 'process has already started'
         self._daemonic = daemonic
 
-    @property
-    def authkey(self):
+    daemon = property(_get_daemon, _set_daemon)
+
+    def _get_authkey(self):
         return self._authkey
 
-    @authkey.setter
-    def authkey(self, authkey):
+    def _set_authkey(self, authkey):
         '''
         Set authorization key of process
         '''
         self._authkey = AuthenticationString(authkey)
+
+    authkey = property(_get_authkey, _set_authkey)
 
     @property
     def exitcode(self):
@@ -255,7 +260,7 @@ class Process(object):
 # We subclass bytes to avoid accidental transmission of auth keys over network
 #
 
-class AuthenticationString(bytes):
+class AuthenticationString(str):
     def __reduce__(self):
         from .forking import Popen
         if not Popen.thread_is_spawning():
@@ -263,7 +268,7 @@ class AuthenticationString(bytes):
                 'Pickling an AuthenticationString object is '
                 'disallowed for security reasons'
                 )
-        return AuthenticationString, (bytes(self),)
+        return AuthenticationString, (str(self),)
 
 #
 # Create object representing the main process

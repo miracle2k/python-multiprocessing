@@ -31,6 +31,9 @@ try:
 except ImportError:
     from pickle import PicklingError
 
+# forward compatibility
+bytes = str
+
 #
 # Register some things for pickling
 #
@@ -201,7 +204,7 @@ class Server(object):
         Handle requests from the proxies in a particular process/thread
         '''
         util.debug('starting server thread to service %r',
-                   threading.current_thread().name)
+                   threading.currentThread().getName())
 
         recv = conn.recv
         send = conn.send
@@ -251,7 +254,7 @@ class Server(object):
 
             except EOFError:
                 util.debug('got EOF -- exiting thread serving %r',
-                           threading.current_thread().name)
+                           threading.currentThread().getName())
                 sys.exit(0)
 
             except Exception:
@@ -264,7 +267,7 @@ class Server(object):
                     send(('#UNSERIALIZABLE', repr(msg)))
             except Exception, e:
                 util.info('exception in thread serving %r',
-                        threading.current_thread().name)
+                        threading.currentThread().getName())
                 util.info(' ... message was %r', msg)
                 util.info(' ... exception was %r', e)
                 conn.close()
@@ -392,7 +395,7 @@ class Server(object):
         '''
         Spawn a new thread to serve this connection
         '''
-        threading.current_thread().name = name
+        threading.currentThread().setName(name)
         c.send(('#RETURN', None))
         self.serve_client(c)
 
@@ -573,7 +576,7 @@ class BaseManager(object):
         '''
         Shutdown the manager process; will be registered as a finalizer
         '''
-        if process.is_alive():
+        if process.isAlive():
             util.info('sending shutdown message to manager')
             try:
                 conn = _Client(address, authkey=authkey)
@@ -585,13 +588,13 @@ class BaseManager(object):
                 pass
 
             process.join(timeout=0.2)
-            if process.is_alive():
+            if process.isAlive():
                 util.info('manager still alive')
                 if hasattr(process, 'terminate'):
                     util.info('trying to `terminate()` manager process')
                     process.terminate()
                     process.join(timeout=0.1)
-                    if process.is_alive():
+                    if process.isAlive():
                         util.info('manager still alive after terminate')
 
         state.value = State.SHUTDOWN
@@ -704,8 +707,8 @@ class BaseProxy(object):
     def _connect(self):
         util.debug('making connection to manager')
         name = current_process().name
-        if threading.current_thread().name != 'MainThread':
-            name += '|' + threading.current_thread().name
+        if threading.currentThread().getName() != 'MainThread':
+            name += '|' + threading.currentThread().getName()
         conn = self._Client(self._token.address, authkey=self._authkey)
         dispatch(conn, None, 'accept_connection', (name,))
         self._tls.connection = conn
@@ -718,7 +721,7 @@ class BaseProxy(object):
             conn = self._tls.connection
         except AttributeError:
             util.debug('thread %r does not own a connection',
-                       threading.current_thread().name)
+                       threading.currentThread().getName())
             self._connect()
             conn = self._tls.connection
 
@@ -782,7 +785,7 @@ class BaseProxy(object):
         # the process owns no more references to objects for this manager
         if not idset and hasattr(tls, 'connection'):
             util.debug('thread %r has no more proxies so closing conn',
-                       threading.current_thread().name)
+                       threading.currentThread().getName())
             tls.connection.close()
             del tls.connection
 
@@ -967,7 +970,10 @@ class ConditionProxy(AcquirerProxy):
     def notify(self):
         return self._callmethod('notify')
     def notify_all(self):
-        return self._callmethod('notify_all')
+        return self._callmethod('notifyAll')
+    def notifyAll(self):
+        return self._callmethod('notifyAll')
+
 
 class EventProxy(BaseProxy):
     _exposed_ = ('is_set', 'set', 'clear', 'wait')

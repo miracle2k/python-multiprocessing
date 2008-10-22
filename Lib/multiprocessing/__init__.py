@@ -81,6 +81,9 @@ class AuthenticationError(ProcessError):
 # This is down here because _multiprocessing uses BufferTooShort
 import _multiprocessing
 
+# alias for forward compatibility
+sys.modules['_multiprocessing'] = _multiprocessing
+
 #
 # Definitions not depending on native semaphores
 #

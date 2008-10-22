@@ -41,6 +41,9 @@ from multiprocessing import util
 
 latin = str
 
+# forward compatibility
+bytes = str
+
 #
 # Constants
 #
@@ -129,7 +132,7 @@ class _TestProcess(BaseTestCase):
         current = self.current_process()
         authkey = current.authkey
 
-        self.assertTrue(current.is_alive())
+        self.assertTrue(current.isAlive())
         self.assertTrue(not current.daemon)
         self.assertTrue(isinstance(authkey, bytes))
         self.assertTrue(len(authkey) > 0)
@@ -159,7 +162,7 @@ class _TestProcess(BaseTestCase):
 
         if self.TYPE != 'threads':
             self.assertEquals(p.authkey, current.authkey)
-        self.assertEquals(p.is_alive(), False)
+        self.assertEquals(p.isAlive(), False)
         self.assertEquals(p.daemon, True)
         self.assertTrue(p not in self.active_children())
         self.assertTrue(type(self.active_children()) is list)
@@ -168,7 +171,7 @@ class _TestProcess(BaseTestCase):
         p.start()
 
         self.assertEquals(p.exitcode, None)
-        self.assertEquals(p.is_alive(), True)
+        self.assertEquals(p.isAlive(), True)
         self.assertTrue(p in self.active_children())
 
         self.assertEquals(q.get(), args[1:])
@@ -181,7 +184,7 @@ class _TestProcess(BaseTestCase):
         p.join()
 
         self.assertEquals(p.exitcode, 0)
-        self.assertEquals(p.is_alive(), False)
+        self.assertEquals(p.isAlive(), False)
         self.assertTrue(p not in self.active_children())
 
     def _test_terminate(self):
@@ -195,7 +198,7 @@ class _TestProcess(BaseTestCase):
         p.daemon = True
         p.start()
 
-        self.assertEqual(p.is_alive(), True)
+        self.assertEqual(p.isAlive(), True)
         self.assertTrue(p in self.active_children())
         self.assertEqual(p.exitcode, None)
 
@@ -205,7 +208,7 @@ class _TestProcess(BaseTestCase):
         self.assertEqual(join(), None)
         self.assertTimingAlmostEqual(join.elapsed, 0.0)
 
-        self.assertEqual(p.is_alive(), False)
+        self.assertEqual(p.isAlive(), False)
         self.assertTrue(p not in self.active_children())
 
         p.join()
@@ -713,7 +716,7 @@ class _TestCondition(BaseTestCase):
 
         # wake them all up
         cond.acquire()
-        cond.notify_all()
+        cond.notifyAll()
         cond.release()
 
         # check they have all woken
@@ -1749,12 +1752,12 @@ class OtherTest(unittest.TestCase):
     def test_deliver_challenge_auth_failure(self):
         class _FakeConnection(object):
             def recv_bytes(self, size):
-                return b'something bogus'
+                return 'something bogus'
             def send_bytes(self, data):
                 pass
         self.assertRaises(multiprocessing.AuthenticationError,
                           multiprocessing.connection.deliver_challenge,
-                          _FakeConnection(), b'abc')
+                          _FakeConnection(), 'abc')
 
     def test_answer_challenge_auth_failure(self):
         class _FakeConnection(object):
@@ -1765,13 +1768,13 @@ class OtherTest(unittest.TestCase):
                 if self.count == 1:
                     return multiprocessing.connection.CHALLENGE
                 elif self.count == 2:
-                    return b'something bogus'
-                return b''
+                    return 'something bogus'
+                return ''
             def send_bytes(self, data):
                 pass
         self.assertRaises(multiprocessing.AuthenticationError,
                           multiprocessing.connection.answer_challenge,
-                          _FakeConnection(), b'abc')
+                          _FakeConnection(), 'abc')
 
 testcases_other = [OtherTest]
 

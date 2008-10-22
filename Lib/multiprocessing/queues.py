@@ -292,7 +292,7 @@ class JoinableQueue(Queue):
             if not self._unfinished_tasks.acquire(False):
                 raise ValueError('task_done() called too many times')
             if self._unfinished_tasks._semlock._is_zero():
-                self._cond.notify_all()
+                self._cond.notifyAll()
         finally:
             self._cond.release()
 

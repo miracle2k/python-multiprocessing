@@ -49,30 +49,32 @@ class DummyProcess(threading.Thread):
 
     @property
     def exitcode(self):
-        if self._start_called and not self.is_alive():
+        if self._start_called and not self.isAlive():
             return 0
         else:
             return None
+        
+    name = property(threading.Thread.getName, threading.Thread.setName)
 
 #
 #
 #
 
 class Condition(threading._Condition):
-    notify_all = threading._Condition.notify_all.im_func
+    notify_all = threading._Condition.notifyAll.im_func
 
 #
 #
 #
 
 Process = DummyProcess
-current_process = threading.current_thread
+current_process = threading.currentThread
 current_process()._children = weakref.WeakKeyDictionary()
 
 def active_children():
     children = current_process()._children
     for p in list(children):
-        if not p.is_alive():
+        if not p.isAlive():
             children.pop(p, None)
     return list(children)
 

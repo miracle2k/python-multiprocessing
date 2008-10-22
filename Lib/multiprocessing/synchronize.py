@@ -120,8 +120,8 @@ class Lock(SemLock):
         try:
             if self._semlock._is_mine():
                 name = current_process().name
-                if threading.current_thread().name != 'MainThread':
-                    name += '|' + threading.current_thread().name
+                if threading.currentThread().getName() != 'MainThread':
+                    name += '|' + threading.currentThread().getName()
             elif self._semlock._get_value() == 1:
                 name = 'None'
             elif self._semlock._count() > 0:
@@ -145,8 +145,8 @@ class RLock(SemLock):
         try:
             if self._semlock._is_mine():
                 name = current_process().name
-                if threading.current_thread().name != 'MainThread':
-                    name += '|' + threading.current_thread().name
+                if threading.currentThread().getName() != 'MainThread':
+                    name += '|' + threading.currentThread().getName()
                 count = self._semlock._count()
             elif self._semlock._get_value() == 1:
                 name, count = 'None', 0
@@ -257,6 +257,8 @@ class Condition(object):
             # rezero wait_semaphore in case some timeouts just happened
             while self._wait_semaphore.acquire(False):
                 pass
+            
+    notifyAll = notify_all
 
 #
 # Event
@@ -283,7 +285,7 @@ class Event(object):
         try:
             self._flag.acquire(False)
             self._flag.release()
-            self._cond.notify_all()
+            self._cond.notifyAll()
         finally:
             self._cond.release()
 

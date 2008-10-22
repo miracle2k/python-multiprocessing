@@ -181,6 +181,7 @@ connection_recvbytes(ConnectionObject *self, PyObject *args)
 	return result;
 }
 
+#ifdef HAS_NEW_PY_BUFFER
 static PyObject *
 connection_recvbytes_into(ConnectionObject *self, PyObject *args) 
 {
@@ -247,6 +248,7 @@ _error:
 	result = NULL;
 	goto _cleanup;
 }
+#endif /* new buffer protocol */
 
 /*
  * Functions for transferring objects
@@ -432,9 +434,12 @@ static PyMethodDef connection_methods[] = {
 	 "send the byte data from a readable buffer-like object"},
 	{"recv_bytes", (PyCFunction)connection_recvbytes, METH_VARARGS, 
 	 "receive byte data as a string"},
+
+#ifdef HAS_NEW_PY_BUFFER
 	{"recv_bytes_into",(PyCFunction)connection_recvbytes_into,METH_VARARGS,
 	 "receive byte data into a writeable buffer-like object\n"
 	 "returns the number of bytes read"},
+#endif
 
 	{"send", (PyCFunction)connection_send_obj, METH_O, 
 	 "send a (picklable) object"},

@@ -146,6 +146,16 @@ extern HANDLE sigint_event;
 #endif
 
 /*
+ * Python 2.5 compatibility
+ */
+
+#if PY_VERSION_HEX < 0x02060000
+#else
+#  define HAS_NEW_PY_BUFFER 1
+#endif
+
+
+/*
  * Connection definition
  */
 

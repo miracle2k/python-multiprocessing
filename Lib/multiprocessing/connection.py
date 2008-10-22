@@ -21,6 +21,8 @@ from multiprocessing import current_process, AuthenticationError
 from multiprocessing.util import get_temp_dir, Finalize, sub_debug, debug
 from multiprocessing.forking import duplicate, close
 
+# forward compatibility
+bytes = str
 
 #
 #
@@ -348,9 +350,9 @@ if sys.platform == 'win32':
 
 MESSAGE_LENGTH = 20
 
-CHALLENGE = b'#CHALLENGE#'
-WELCOME = b'#WELCOME#'
-FAILURE = b'#FAILURE#'
+CHALLENGE = '#CHALLENGE#'
+WELCOME = '#WELCOME#'
+FAILURE = '#FAILURE#'
 
 def deliver_challenge(connection, authkey):
     import hmac
