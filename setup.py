@@ -101,13 +101,12 @@ if sys.version_info < (2, 5):
 packages = [
     'multiprocessing',
     'multiprocessing.dummy',
+    'multiprocessing.examples',
     ]
 
 package_dir = {
     'multiprocessing': 'Lib/multiprocessing',
-    #'multiprocessing.doc': 'Doc/library',
-    #'multiprocessing.tests': 'Lib/test',
-    #'processing.examples': 'examples'
+    'multiprocessing.examples': 'examples'
     }
 
 setup(
