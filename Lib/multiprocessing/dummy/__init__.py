@@ -21,6 +21,7 @@ import sys
 import weakref
 import array
 import itertools
+import sys
 
 from multiprocessing import TimeoutError, cpu_count
 from multiprocessing.dummy.connection import Pipe
@@ -53,8 +54,9 @@ class DummyProcess(threading.Thread):
             return 0
         else:
             return None
-        
-    name = property(threading.Thread.getName, threading.Thread.setName)
+ 
+    if sys.version_info < (2,6):       
+        name = property(threading.Thread.getName, threading.Thread.setName)
 
 #
 #
