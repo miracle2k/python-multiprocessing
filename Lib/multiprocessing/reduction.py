@@ -34,7 +34,7 @@ if not(sys.platform == 'win32' or hasattr(_multiprocessing, 'recvfd')):
 
 if sys.platform == 'win32':
     import _subprocess
-    from ._multiprocessing import win32
+    from multiprocessing._multiprocessing import win32
 
     def send_handle(conn, handle, destination_pid):
         process_handle = win32.OpenProcess(
@@ -91,7 +91,7 @@ def _get_listener():
     return _listener
 
 def _serve():
-    from .util import is_exiting, sub_warning
+    from multiprocessing.util import is_exiting, sub_warning
 
     while 1:
         try:

@@ -150,8 +150,8 @@ else:
     import _subprocess
     import time
 
-    from ._multiprocessing import win32, Connection, PipeConnection
-    from .util import Finalize
+    from multiprocessing._multiprocessing import win32, Connection, PipeConnection
+    from multiprocessing.util import Finalize
 
     #try:
     #    from cPickle import dump, load, HIGHEST_PROTOCOL
@@ -352,7 +352,7 @@ else:
         '''
         Return info about parent needed by child to unpickle process object
         '''
-        from .util import _logger, _log_to_stderr
+        from multiprocessing.util import _logger, _log_to_stderr
 
         d = dict(
             name=name,

@@ -205,7 +205,7 @@ class Queue(object):
     @staticmethod
     def _feed(buffer, notempty, send, writelock, close):
         debug('starting thread to feed data to pipe')
-        from .util import is_exiting
+        from multiprocessing.util import is_exiting
 
         nacquire = notempty.acquire
         nrelease = notempty.release

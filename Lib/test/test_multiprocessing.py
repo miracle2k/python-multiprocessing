@@ -1605,7 +1605,7 @@ class _TestFinalize(BaseTestCase):
         self.assertEqual(result, ['a', 'b', 'd10', 'd03', 'd02', 'd01', 'e'])
 
 #
-# Test that from ... import * works for each module
+# Test that from multiprocessing... import * works for each module
 #
 
 class _TestImportStar(BaseTestCase):

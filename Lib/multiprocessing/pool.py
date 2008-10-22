@@ -127,7 +127,7 @@ class Pool(object):
             )
 
     def _setup_queues(self):
-        from .queues import SimpleQueue
+        from multiprocessing.queues import SimpleQueue
         self._inqueue = SimpleQueue()
         self._outqueue = SimpleQueue()
         self._quick_put = self._inqueue._writer.send
@@ -573,7 +573,7 @@ class IMapUnorderedIterator(IMapIterator):
 
 class ThreadPool(Pool):
 
-    from .dummy import Process
+    from multiprocessing.dummy import Process
 
     def __init__(self, processes=None, initializer=None, initargs=()):
         Pool.__init__(self, processes, initializer, initargs)

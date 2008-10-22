@@ -103,7 +103,7 @@ class Process(object):
         if self._Popen is not None:
             Popen = self._Popen
         else:
-            from .forking import Popen
+            from multiprocessing.forking import Popen
         self._popen = Popen(self)
         _current_process._children.add(self)
 
@@ -218,7 +218,7 @@ class Process(object):
     ##
 
     def _bootstrap(self):
-        from . import util
+        from multiprocessing import util
         global _current_process
 
         try:
@@ -262,7 +262,7 @@ class Process(object):
 
 class AuthenticationString(str):
     def __reduce__(self):
-        from .forking import Popen
+        from multiprocessing.forking import Popen
         if not Popen.thread_is_spawning():
             raise TypeError(
                 'Pickling an AuthenticationString object is '
