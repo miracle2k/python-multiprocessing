@@ -85,6 +85,7 @@ extensions = [
     Extension('multiprocessing._multiprocessing',
               sources=multiprocessing_srcs,
               define_macros=macros.items(),
+              libraries=libraries,
               include_dirs=["Modules/_multiprocessing"],
               depends=(glob.glob('Modules/_multiprocessing/*.h') +
                        ['setup.py'])
@@ -130,3 +131,4 @@ setup(
         'Programming Language :: Python',
         ]
     )
+
