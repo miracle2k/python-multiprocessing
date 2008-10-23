@@ -5,8 +5,8 @@
 ================================
 
 Versions earlier than Python 2.4 are not supported.  If you are using
-Python 2.4 then you should install the `ctypes` package (which comes
-automatically with Python 2.5).
+Python 2.4 then you must install the `ctypes` package (which comes
+automatically with Python 2.5) and the `pywin32` package.
 
 Windows binary builds for Python 2.4 and Python 2.5 are available at
 

@@ -149,6 +149,11 @@ else:
     import msvcrt
     import _subprocess
     import time
+    try:
+        from _subprocess import TerminateProcess
+    except ImportError: # Python 2.4
+        from win32process import TerminateProcess
+    
 
     from multiprocessing._multiprocessing import win32, Connection, PipeConnection
     from multiprocessing.util import Finalize
@@ -271,7 +276,7 @@ else:
         def terminate(self):
             if self.returncode is None:
                 try:
-                    _subprocess.TerminateProcess(int(self._handle), TERMINATE)
+                    TerminateProcess(int(self._handle), TERMINATE)
                 except WindowsError:
                     if self.wait(timeout=0.1) is None:
                         raise
