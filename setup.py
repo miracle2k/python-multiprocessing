@@ -110,25 +110,35 @@ package_dir = {
     'multiprocessing.examples': 'examples'
     }
 
+here = os.path.dirname(os.path.abspath(__file__))
+
 setup(
     name='multiprocessing',
-    version="0.0-2.6.0",
-    description=('Package for using processes which mimics ' +
-                 'the threading module'),
-    #long_description=long_description,
+    version="0.0.1-2.6.0",
+    description=('Backport of the multiprocessing package to '
+                 'Python 2.4 and 2.5'),
+    long_description=open(os.path.join(here, 'README.txt')).read(),
     packages=packages,
     package_dir=package_dir,
     #package_data=package_data,
     ext_modules=extensions,
-    #author='R Oudkerk',
-    #author_email='roudkerk at users.berlios.de',
-    #url='http://developer.berlios.de/projects/pyprocessing',
-    #license='BSD Licence',
+    author='R Oudkerk / Python Software Foundation',
+    author_email='python-dev@python.org',
+    maintainer='Christian Heimes',
+    maintainer_email="christian at cheimes dot de",
+    url='http://code.google.com/p/python-multiprocessing',
+    license='BSD Licence',
     platforms='Unix and Windows',
+    keywords="",
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Programming Language :: Python',
+        'Programming Language :: C',
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: POSIX',
+        'License :: OSI Approved :: BSD License',
+        'Topic :: Software Development :: Libraries :: Python Modules',
         ]
     )
 

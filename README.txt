@@ -2,10 +2,11 @@
  Standalone Python multiprocessing
 ==================================
 
-:Author:        R Oudkerk
-:Contact:       roudkerk at users.berlios.de
-:Url:           
-:Version:       0.0-2.6.0
+:Author:        R Oudkerk / PSF
+:Maintainer     Christian Heimes
+:Contact:       christian at cheimes.de / python-dev at python.org
+:Url:           http://code.google.com/p/python-multiprocessing 
+:Version:       0.0.1-2.6.0
 :Licence:       BSD Licence
 
 `multiprocessing` is a fork of R Oudkerk's `processing` package. It's
