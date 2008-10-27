@@ -114,7 +114,7 @@ here = os.path.dirname(os.path.abspath(__file__))
 
 setup(
     name='multiprocessing',
-    version="0.0.1-2.6.0",
+    version="2.6.0-0.1",
     description=('Backport of the multiprocessing package to '
                  'Python 2.4 and 2.5'),
     long_description=open(os.path.join(here, 'README.txt')).read(),
