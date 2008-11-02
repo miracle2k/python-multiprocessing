@@ -60,6 +60,10 @@ __author__ = 'R. Oudkerk (r.m.oudkerk@gmail.com)'
 import os
 import sys
 
+# backward compatibility patch for Python 2,4 and 2.5
+import multiprocessing.patch
+multiprocessing.patch.monkey()
+
 from multiprocessing.process import Process, current_process, active_children
 
 #

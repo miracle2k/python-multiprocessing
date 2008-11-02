@@ -1,0 +1,12 @@
+Unreleased
+----------
+
+ * Issue #5: Added monkey patch to make the threading module forward 
+   compatible with Python 2.6 and 3.0.
+ 
+ * Python Issue #4204: Fixed a compilation issue on FreeBSD 4.
+
+2.6.0-0.1 -- 2008-10-27
+-----------------------
+
+ * Initial release

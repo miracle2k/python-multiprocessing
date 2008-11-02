@@ -132,7 +132,7 @@ class _TestProcess(BaseTestCase):
         current = self.current_process()
         authkey = current.authkey
 
-        self.assertTrue(current.isAlive())
+        self.assertTrue(current.is_alive())
         self.assertTrue(not current.daemon)
         self.assertTrue(isinstance(authkey, bytes))
         self.assertTrue(len(authkey) > 0)
@@ -162,7 +162,7 @@ class _TestProcess(BaseTestCase):
 
         if self.TYPE != 'threads':
             self.assertEquals(p.authkey, current.authkey)
-        self.assertEquals(p.isAlive(), False)
+        self.assertEquals(p.is_alive(), False)
         self.assertEquals(p.daemon, True)
         self.assertTrue(p not in self.active_children())
         self.assertTrue(type(self.active_children()) is list)
@@ -171,7 +171,7 @@ class _TestProcess(BaseTestCase):
         p.start()
 
         self.assertEquals(p.exitcode, None)
-        self.assertEquals(p.isAlive(), True)
+        self.assertEquals(p.is_alive(), True)
         self.assertTrue(p in self.active_children())
 
         self.assertEquals(q.get(), args[1:])
@@ -184,7 +184,7 @@ class _TestProcess(BaseTestCase):
         p.join()
 
         self.assertEquals(p.exitcode, 0)
-        self.assertEquals(p.isAlive(), False)
+        self.assertEquals(p.is_alive(), False)
         self.assertTrue(p not in self.active_children())
 
     def _test_terminate(self):
@@ -198,7 +198,7 @@ class _TestProcess(BaseTestCase):
         p.daemon = True
         p.start()
 
-        self.assertEqual(p.isAlive(), True)
+        self.assertEqual(p.is_alive(), True)
         self.assertTrue(p in self.active_children())
         self.assertEqual(p.exitcode, None)
 
@@ -208,7 +208,7 @@ class _TestProcess(BaseTestCase):
         self.assertEqual(join(), None)
         self.assertTimingAlmostEqual(join.elapsed, 0.0)
 
-        self.assertEqual(p.isAlive(), False)
+        self.assertEqual(p.is_alive(), False)
         self.assertTrue(p not in self.active_children())
 
         p.join()
@@ -716,7 +716,7 @@ class _TestCondition(BaseTestCase):
 
         # wake them all up
         cond.acquire()
-        cond.notifyAll()
+        cond.notify_all()
         cond.release()
 
         # check they have all woken

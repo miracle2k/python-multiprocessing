@@ -15,7 +15,10 @@ This package would not be possible if not for the contributions of not only
 the current maintainers but all of the contributors to the original pyprocessing
 package listed `here <http://pyprocessing.berlios.de/doc/THANKS.html>`_
 
+The multiprocessing package monkey patches several aspects of the `threading`
+module to make it forward compatible with Python 2.6. The patches are 
+non-intrusive and don't change existing functions. See `multiprocessing.patch`
+for detailed informations.
+
 Please refer to http://www.python.org/doc/2.6/library/multiprocessing.html
 for more information about the `multiprocessing` package.
-
-
