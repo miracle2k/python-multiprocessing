@@ -6,7 +6,15 @@ Unreleased
  
  * Python Issue #4204: Fixed a compilation issue on FreeBSD 4.
 
+ * Removed ``install`` target from Makefile.
+
+ * Updated comments of Modules/mmapmodules.c. The modifications
+   and origin are clearly marked now.
+
+ * Added sphinx builder for docs and new make target ``docs``.
+
 2.6.0-0.1 -- 2008-10-27
 -----------------------
 
  * Initial release
+
