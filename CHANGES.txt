@@ -1,5 +1,8 @@
-Unreleased
-----------
+2.6.0.2 -- Unreleased
+---------------------
+
+ The release is based on 2.6.0+ and contains additional fixes
+ from Python svn.
 
  * Issue #5: Added monkey patch to make the threading module forward 
    compatible with Python 2.6 and 3.0.
@@ -13,8 +16,15 @@ Unreleased
 
  * Added sphinx builder for docs and new make target ``docs``.
 
+ * Changed version schema to Python.version.number.internal_revision
+
+ * Pulled doc fixes from Python svn: r67189, r67330, r67332
+
+
 2.6.0-0.1 -- 2008-10-27
 -----------------------
+
+ The release is based on Python 2.6.0
 
  * Initial release
 
