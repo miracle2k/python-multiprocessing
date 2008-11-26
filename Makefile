@@ -1,8 +1,9 @@
 PYTHON?=python2.5
 PYTHONPATH="Lib/"
 RUNPYTHON=PYTHONPATH=$(PYTHONPATH) $(PYTHON)
+BUILDER="html"
 
-.PHONY=all inplace test clean realclean sdist examples
+.PHONY=all inplace test clean realclean sdist examples doc
 
 all: inplace
 
@@ -14,6 +15,7 @@ test: inplace
 
 clean:
 	find Lib/ \( -name '*.py[co]' -or -name '*.so' \) -exec rm {} \;
+	rm -rf build/sphinx
 
 realclean: clean
 	find . \( -name '*~' -or -name '*.bak' -or -name '*.tmp' \) -exec rm {} \;
@@ -29,8 +31,12 @@ sdist: realclean
 examples: inplace
 	@echo -n "\n"
 	@for EXAMPLE in distributing newtype pool synchronize benchmarks workers; do \
-		echo "*** Running example examples/mp_$${EXAMPLE}.py"; \
-		$(RUNPYTHON) examples/mp_$${EXAMPLE}.py || exit 1; \
+		echo "*** Running example mp_$${EXAMPLE}.py"; \
+		$(RUNPYTHON) Doc/includes/mp_$${EXAMPLE}.py || exit 1; \
 		echo -n "\n***********************\n\n"; \
 	done
+
+doc:
+	$(PYTHON) setup.py build_sphinx --builder=$(BUILDER) \
+	    --source-dir=Doc/
 
