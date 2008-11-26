@@ -378,8 +378,8 @@ The :mod:`multiprocessing` package mostly replicates the API of the
 
    Example usage of some of the methods of :class:`Process`::
 
-       >>> import processing, time, signal
-       >>> p = processing.Process(target=time.sleep, args=(1000,))
+       >>> import multiprocessing, time, signal
+       >>> p = multiprocessing.Process(target=time.sleep, args=(1000,))
        >>> print p, p.is_alive()
        <Process(Process-1, initial)> False
        >>> p.start()
@@ -874,7 +874,7 @@ inherited by child processes.
 
    Note that *lock* is a keyword only argument.
 
-   Note that an array of :data:`ctypes.c_char` has *value* and *rawvalue*
+   Note that an array of :data:`ctypes.c_char` has *value* and *raw*
    attributes which allow one to use it to store and retrieve strings.
 
 
@@ -923,7 +923,7 @@ processes.
    :func:`Value` instead to make sure that access is automatically synchronized
    using a lock.
 
-   Note that an array of :data:`ctypes.c_char` has ``value`` and ``rawvalue``
+   Note that an array of :data:`ctypes.c_char` has ``value`` and ``raw``
    attributes which allow one to use it to store and retrieve strings -- see
    documentation for :mod:`ctypes`.
 
@@ -1781,12 +1781,12 @@ handler type) for messages from different processes to get mixed up.
 
 Below is an example session with logging turned on::
 
-    >>> import processing, logging
-    >>> logger = processing.getLogger()
+    >>> import multiprocessing, logging
+    >>> logger = multiprocessing.get_logger()
     >>> logger.setLevel(logging.INFO)
     >>> logger.warning('doomed')
     [WARNING/MainProcess] doomed
-    >>> m = processing.Manager()
+    >>> m = multiprocessing.Manager()
     [INFO/SyncManager-1] child process calling self.run()
     [INFO/SyncManager-1] manager bound to '\\\\.\\pipe\\pyc-2776-0-lj0tfa'
     >>> del m

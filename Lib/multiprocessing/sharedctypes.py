@@ -71,7 +71,7 @@ def Value(typecode_or_type, *args, **kwds):
     obj = RawValue(typecode_or_type, *args)
     if lock is None:
         lock = RLock()
-    assert hasattr(lock, 'acquire')
+    assert hasattr(lock, 'acquire'), "%r has no acquire attribute" % lock
     return synchronized(obj, lock)
 
 def Array(typecode_or_type, size_or_initializer, **kwds):
@@ -84,7 +84,7 @@ def Array(typecode_or_type, size_or_initializer, **kwds):
     obj = RawArray(typecode_or_type, size_or_initializer)
     if lock is None:
         lock = RLock()
-    assert hasattr(lock, 'acquire')
+    assert hasattr(lock, 'acquire'), "%r has no acquire attribute" % lock
     return synchronized(obj, lock)
 
 def copy(obj):
