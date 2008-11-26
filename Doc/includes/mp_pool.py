@@ -1,6 +1,8 @@
 #
 # A test of `multiprocessing.Pool` class
 #
+# Copyright (c) 2006-2008, R Oudkerk --- see COPYING.txt
+#
 
 import multiprocessing
 import time

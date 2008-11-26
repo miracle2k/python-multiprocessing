@@ -3,6 +3,8 @@
 #
 # Depends on `multiprocessing` package -- tested with `processing-0.60`
 #
+# Copyright (c) 2006-2008, R Oudkerk --- see COPYING.txt
+#
 
 __all__ = ['Cluster', 'Host', 'get_logger', 'current_process']
 

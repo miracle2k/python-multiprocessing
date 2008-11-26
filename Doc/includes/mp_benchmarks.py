@@ -1,6 +1,8 @@
 #
 # Simple benchmarks for the multiprocessing package
 #
+# Copyright (c) 2006-2008, R Oudkerk --- see COPYING.txt
+#
 
 import time, sys, multiprocessing, threading, Queue, gc
 
