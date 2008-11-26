@@ -13,12 +13,15 @@
  / from the original mmapfile.c on which it was based.
  / The original version of mmapfile is maintained by Sam at
  / ftp://squirl.nightmare.com/pub/python/python-ext.
+ /
+ / The file was taken from Python 2.5's maintenance branch r67391 
+ / http://svn.python.org/projects/python/branches/release25-maint/Modules/ 
 */
 
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
-/* Python 2.4 compat */
+/* MODIFIED for Python 2.4 compat */
 /* XXX POSSIBLY HARMFUL [ch]
    Verify all aliases are doing their job w/o breaking
    especially PyNumber_AsSsize_t looks suspicious
@@ -41,7 +44,7 @@ typedef long Py_ssize_t;
 #define segcountproc getsegcountproc
 #define charbufferproc getcharbufferproc
 
-/* end of 2.4 */
+/* END OF MODIFIED */
 
 #ifndef MS_WINDOWS
 #define UNIX
@@ -1165,13 +1168,14 @@ setint(PyObject *d, const char *name, long value)
 }
 
 PyMODINIT_FUNC
-	init_mmap25(void)
+	init_mmap25(void) /* MODIFIED, changed name to _mmap25 */
 {
 	PyObject *dict, *module;
 
 	/* Patch the object type */
 	mmap_object_type.ob_type = &PyType_Type;
 
+    /* MODIFIED, changed name to _mmap25 */
 	module = Py_InitModule("_mmap25", mmap_functions);
 	if (module == NULL)
 		return;
