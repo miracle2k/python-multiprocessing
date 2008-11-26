@@ -107,7 +107,7 @@ packages = [
 
 package_dir = {
     'multiprocessing': 'Lib/multiprocessing',
-    'multiprocessing.examples': 'examples'
+    'multiprocessing.examples': 'Doc/includes'
     }
 
 here = os.path.dirname(os.path.abspath(__file__))
