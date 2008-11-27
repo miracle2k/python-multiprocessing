@@ -24,7 +24,7 @@ Windows.
     implementation on the host operating system. Without one, the 
     :mod:`multiprocessing.synchronize` module will be disabled, and attempts to 
     import it will result in an :exc:`ImportError`. See 
-    :issue:`3770` for additional information.
+    `Issue 3770 <http://bugs.python.org/3770>`_ for additional information.
 
 The :class:`Process` class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

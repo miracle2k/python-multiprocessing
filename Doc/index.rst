@@ -10,6 +10,7 @@ Contents:
 .. toctree::
 
     library/multiprocessing.rst
+    glossary.rst
 
 
 Indices and tables

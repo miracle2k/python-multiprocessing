@@ -20,13 +20,13 @@ module to make it forward compatible with Python 2.6. The patches are
 non-intrusive and don't change existing functions. See `multiprocessing.patch`
 for detailed informations.
 
-Please refer to http://www.python.org/doc/2.6/library/multiprocessing.html
+Please refer to `<http://www.python.org/doc/2.6/library/multiprocessing.html>`_
 for more information about the `multiprocessing` package.
 
 Bug reporting
 -------------
 
 Please report bugs related to multiprocessing at the `Python bug 
-tracker http://bugs.python.org/`_. Issues related to the packaging of
-multiprocessing should be reported at `http://code.google.com/p/python-multiprocessing/`_.
+tracker <http://bugs.python.org/>`_. Issues related to the packaging of
+multiprocessing should be reported at `<http://code.google.com/p/python-multiprocessing/>`_.
 
