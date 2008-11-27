@@ -22,3 +22,11 @@ for detailed informations.
 
 Please refer to http://www.python.org/doc/2.6/library/multiprocessing.html
 for more information about the `multiprocessing` package.
+
+Bug reporting
+-------------
+
+Please report bugs related to multiprocessing at the `Python bug 
+tracker http://bugs.python.org/`_. Issues related to the packaging of
+multiprocessing should be reported at `http://code.google.com/p/python-multiprocessing/`_.
+

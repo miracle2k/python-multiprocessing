@@ -6,7 +6,8 @@
 
 Versions earlier than Python 2.4 are not supported.  If you are using
 Python 2.4 then you must install the `ctypes` package (which comes
-automatically with Python 2.5) and the `pywin32` package.
+automatically with Python 2.5). Users of Python 2.4 on Windows
+also need to install the `pywin32` package.
 
 Windows binary builds for Python 2.4 and Python 2.5 are available at
 
@@ -50,7 +51,7 @@ To run the test scripts using Python 2.5 do ::
 
     python -m multiprocessing.tests
 
-and on Python 2.6 do ::
+and on Python 2.4 do ::
 
     python -c "from multiprocessing.tests import main; main()"
 
@@ -70,4 +71,16 @@ Running examples
 ----------------
 
 The make target `examples` runs several example scripts.
+
+
+Building docs
+-------------
+
+To build the standalone documentation you need Sphinx 0.5 and setuptools
+0.6c9 or newer. Both are available at http://pypi.python.org/. With 
+setuptools installed, do ::
+
+    sudo easy_install-2.5 "Sphinx>=0.5"
+    make doc
+
 
