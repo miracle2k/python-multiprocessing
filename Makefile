@@ -37,6 +37,7 @@ examples: inplace
 	done
 
 doc:
+	mkdir -p Doc/static Doc/templates
 	$(PYTHON) setup.py build_sphinx --builder=$(BUILDER) \
 	    --source-dir=Doc/
 
