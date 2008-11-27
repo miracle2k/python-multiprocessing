@@ -10,7 +10,7 @@ except ImportError:
     from distutils.core import setup, Extension
 
 # Python.version.number.internal_revision
-VERSION='2.6.0.2'
+VERSION='2.6.0.2+'
 
 if sys.version_info < (2, 4):
     raise ValueError("Versions of Python before 2.4 are not supported")
