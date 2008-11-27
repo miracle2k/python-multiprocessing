@@ -83,4 +83,5 @@ setuptools installed, do ::
     sudo easy_install-2.5 "Sphinx>=0.5"
     make doc
 
+The docs end up in ``build/sphinx/builder_name``.
 
