@@ -113,13 +113,22 @@ package_dir = {
     }
 
 here = os.path.dirname(os.path.abspath(__file__))
+long_description = open(os.path.join(here, 'README.txt')).read()
+long_description += """
+===========
+Changes
+===========
+
+"""
+long_description += open(os.path.join(here, 'CHANGES.txt')).read()
+
 
 setup(
     name='multiprocessing',
     version=VERSION,
     description=('Backport of the multiprocessing package to '
                  'Python 2.4 and 2.5'),
-    long_description=open(os.path.join(here, 'README.txt')).read(),
+    long_description=long_description,
     packages=packages,
     package_dir=package_dir,
     ext_modules=extensions,
