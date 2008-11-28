@@ -3,6 +3,10 @@
 
  * Fixed an issue with `make doc`
 
+ * mp docs - fix issues 4012,3518,4193 (Python svn: r67419)
+
+ * issue4238: bsd support for cpu_count (Python svn: r67423)
+
 
 2.6.0.2 -- 2008-11-27
 ---------------------

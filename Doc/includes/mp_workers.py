@@ -7,7 +7,8 @@
 # in the original order then consider using `Pool.map()` or
 # `Pool.imap()` (which will save on the amount of code needed anyway).
 #
-# Copyright (c) 2006-2008, R Oudkerk --- see COPYING.txt
+# Copyright (c) 2006-2008, R Oudkerk
+# All rights reserved.
 #
 
 import time

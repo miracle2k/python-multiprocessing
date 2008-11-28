@@ -8,7 +8,8 @@
 # Not sure if we should synchronize access to `socket.accept()` method by
 # using a process-shared lock -- does not seem to be necessary.
 #
-# Copyright (c) 2006-2008, R Oudkerk --- see COPYING.txt
+# Copyright (c) 2006-2008, R Oudkerk
+# All rights reserved.
 #
 
 import os

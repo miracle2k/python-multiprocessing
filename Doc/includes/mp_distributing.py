@@ -3,7 +3,8 @@
 #
 # Depends on `multiprocessing` package -- tested with `processing-0.60`
 #
-# Copyright (c) 2006-2008, R Oudkerk --- see COPYING.txt
+# Copyright (c) 2006-2008, R Oudkerk
+# All rights reserved.
 #
 
 __all__ = ['Cluster', 'Host', 'get_logger', 'current_process']
@@ -39,7 +40,6 @@ def get_logger():
 _logger = logging.getLogger('distributing')
 _logger.propogate = 0
 
-#util.fix_up_logger(_logger)
 _formatter = logging.Formatter(util.DEFAULT_LOGGING_FORMAT)
 _handler = logging.StreamHandler()
 _handler.setFormatter(_formatter)
