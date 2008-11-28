@@ -12,6 +12,21 @@ except ImportError:
 # Python.version.number.internal_revision
 VERSION='2.6.0.2+'
 
+HERE = os.path.dirname(os.path.abspath(__file__))
+
+# check __version__ in release mode
+if any("dist" in arg for arg in sys.argv):
+    mp = os.path.join(HERE, "Lib", "multiprocessing", "__init__.py")
+    for line in open(mp):
+        if line.startswith("__version__"):
+            expected = "__version__ = '%s'" % VERSION
+            if line.strip() != expected:
+                raise ValueError("Version line in %s is wrong: %s\n"
+                                 "expected: %s" % 
+                                 (mp, line.strip(), expected))
+            break
+
+
 if sys.version_info < (2, 4):
     raise ValueError("Versions of Python before 2.4 are not supported")
 
@@ -112,15 +127,14 @@ package_dir = {
     'multiprocessing.examples': 'Doc/includes'
     }
 
-here = os.path.dirname(os.path.abspath(__file__))
-long_description = open(os.path.join(here, 'README.txt')).read()
+long_description = open(os.path.join(HERE, 'README.txt')).read()
 long_description += """
 ===========
 Changes
 ===========
 
 """
-long_description += open(os.path.join(here, 'CHANGES.txt')).read()
+long_description += open(os.path.join(HERE, 'CHANGES.txt')).read()
 
 
 setup(
