@@ -7,6 +7,10 @@
 
  * issue4238: bsd support for cpu_count (Python svn: r67423)
 
+ * Move definition int sval into branch of ifdef where it is used.
+   Otherwise, you get a warning about an undefined variable.
+   (Python svn: r67440)
+
 
 2.6.0.2 -- 2008-11-27
 ---------------------
