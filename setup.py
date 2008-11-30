@@ -15,7 +15,7 @@ VERSION='2.6.0.2+'
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 # check __version__ in release mode
-if any("dist" in arg for arg in sys.argv):
+if len(sys.argv) > 1 and "dist" in sys.argv[1]:
     mp = os.path.join(HERE, "Lib", "multiprocessing", "__init__.py")
     for line in open(mp):
         if line.startswith("__version__"):
