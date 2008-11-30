@@ -9,6 +9,10 @@ Python 2.4 then you must install the `ctypes` package (which comes
 automatically with Python 2.5). Users of Python 2.4 on Windows
 also need to install the `pywin32` package.
 
+On Unix It's highly recommended to use Python 2.5.3 (not yet released) or
+apply the ``fork-thread-patch-2`` patch from `Issue 1683
+http://bugs.python.org/issue1683`_.
+
 Windows binary builds for Python 2.4 and Python 2.5 are available at
 
     http://pypi.python.org/pypi/multiprocessing

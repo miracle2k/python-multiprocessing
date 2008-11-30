@@ -255,8 +255,7 @@ static PyObject *
 connection_recvbytes_into(ConnectionObject *self, PyObject *args) 
 {
 	char *freeme = NULL, *buffer = NULL;
-	Py_ssize_t res, offset = 0;
-	int length = 0;
+	Py_ssize_t length = 0, res, offset = 0;
 	PyObject *result = NULL;
 
 	CHECK_READABLE(self);

@@ -11,6 +11,11 @@
    Otherwise, you get a warning about an undefined variable.
    (Python svn: r67440)
 
+ * Fixed a segfault in connection_recvbytes_into() which occured
+   with Python debug builds on 64bit Linux.
+
+ * Added reference to `Issue 1683 http://bugs.python.org/issue1683`_.
+
 
 2.6.0.2 -- 2008-11-27
 ---------------------
