@@ -1,4 +1,4 @@
-2.6.0.3 -- Unreleased
+2.6.1.1 -- Unreleased
 ---------------------
 
  * Fixed an issue with `make doc`
@@ -15,6 +15,14 @@
    with Python debug builds on 64bit Linux.
 
  * Added reference to `Issue 1683 http://bugs.python.org/issue1683`_.
+
+ * issue 4301: patch logging to add processName, remove the old 
+   _check_logger_class code (Python svn: r68737)
+
+ * Resolve issue 3321: (segfault) _multiprocessing.Connection() 
+   doesn't check handle (Python svn: r68768)
+
+ * Documentation update
 
 
 2.6.0.2 -- 2008-11-27
