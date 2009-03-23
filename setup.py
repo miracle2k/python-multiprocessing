@@ -3,7 +3,7 @@ __version__ = "$Revision$"
 import os
 import sys
 import glob
-from subprocess import check_call
+from subprocess import call
 
 try:
     from setuptools import setup, Extension
@@ -108,7 +108,10 @@ class mp_build_ext(build_ext):
             mpconfig = os.path.join(self.build_temp, 'mpconfig.h')
             # create mpconfig.h
             if not os.path.isfile(mpconfig):
-                check_call([os.path.join(HERE, 'configure')], cwd=self.build_temp)
+                # Python 2.4 has no check_call
+                rc = call([os.path.join(HERE, 'configure')], cwd=self.build_temp)
+                if rc != 0:
+                    raise RuntimeError("Failure during ./configure run")
             # check for HAVE_SEM_OPEN feature
             for line in open(mpconfig):
                 if "HAVE_SEM_OPEN" in line and "1" in line:
