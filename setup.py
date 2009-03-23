@@ -88,9 +88,9 @@ else:
     multiprocessing_srcs = ['Modules/_multiprocessing/multiprocessing.c',
                             'Modules/_multiprocessing/socket_connection.c'
                            ]
-
-    if macros.get('HAVE_SEM_OPEN', False):
-        multiprocessing_srcs.append('Modules/_multiprocessing/semaphore.c')
+    # included later
+    #if macros.get('HAVE_SEM_OPEN', False):
+    #    multiprocessing_srcs.append('Modules/_multiprocessing/semaphore.c')
 
 
 if 0:
@@ -102,13 +102,27 @@ if 0:
 
 class mp_build_ext(build_ext):
     def run(self):
+        if not os.path.isdir(self.build_temp):
+            os.makedirs(self.build_temp)
         if sys.platform != 'win32':
             mpconfig = os.path.join(self.build_temp, 'mpconfig.h')
+            # create mpconfig.h
             if not os.path.isfile(mpconfig):
                 check_call([os.path.join(HERE, 'configure')], cwd=self.build_temp)
+            # check for HAVE_SEM_OPEN feature
+            for line in open(mpconfig):
+                if "HAVE_SEM_OPEN" in line and "1" in line:
+                    have_sem_open = True
+                    break
+            else:
+                have_sem_open = False
+            
+            # modify extension
             self.include_dirs.append(self.build_temp)
-            for ext in self.extensions:
-                ext.depends.append(mpconfig)
+            self.extensions[0].depends.append(mpconfig)
+            if have_sem_open:
+                self.extensions[0].sources.append('Modules/_multiprocessing/semaphore.c')
+
         
         build_ext.run(self)
 
