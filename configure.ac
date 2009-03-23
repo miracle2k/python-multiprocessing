@@ -22,7 +22,7 @@ AC_MSG_CHECKING(for sem_open)
 AC_TRY_COMPILE([#include <semaphore.h>], void *x=sem_open,
   AC_DEFINE(HAVE_SEM_OPEN, 1, Define if you have the 'sem_open' function.)
   AC_MSG_RESULT(yes),
-  AC_DEFINE(HAVE_SEM_OPEN, 0, Define if you have the 'sem_open' function.)
+  AC_DEFINE(HAVE_SEM_OPEN, 0)
   AC_MSG_RESULT(no)
 )
 
@@ -30,7 +30,7 @@ AC_MSG_CHECKING(for sem_timedwait)
 AC_TRY_COMPILE([#include <semaphore.h>], void *x=sem_timedwait,
   AC_DEFINE(HAVE_SEM_TIMEDWAIT, 1, Define if you have the 'sem_timedwait' function.)
   AC_MSG_RESULT(yes),
-  AC_DEFINE(HAVE_SEM_TIMEDWAIT, 0, Define if you have the 'sem_timedwait' function.)
+  AC_DEFINE(HAVE_SEM_TIMEDWAIT, 0)
   AC_MSG_RESULT(no)
 )
 
@@ -41,9 +41,9 @@ AC_TRY_COMPILE([#include <sys/socket.h>],
   s = CMSG_SPACE(CMSG_LEN(sizeof(int)));
   cmsg = CMSG_FIRSTHDR(&msg);
   ,
-  AC_DEFINE(HAVE_FD_TRANSER, 1, Define if you have the 'sendmsg' function for fd transfer.)
+  AC_DEFINE(HAVE_FD_TRANSFER, 1, Define if you have the 'sendmsg' function for fd transfer.)
   AC_MSG_RESULT(yes),
-  AC_DEFINE(HAVE_FD_TRANSER, 0, Define if you have the 'sendmsg' function for fd transfer.)
+  AC_DEFINE(HAVE_FD_TRANSFER, 0)
   AC_MSG_RESULT(no)
 )
 
