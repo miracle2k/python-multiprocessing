@@ -3,11 +3,14 @@ __version__ = "$Revision$"
 import os
 import sys
 import glob
+from subprocess import check_call
 
 try:
     from setuptools import setup, Extension
+    from setuptools.command.build_ext import build_ext
 except ImportError:
     from distutils.core import setup, Extension
+    from distutils.command.build_ext import build_ext
 
 # Python.version.number.internal_revision
 VERSION='2.6.1.1+'
@@ -35,41 +38,41 @@ if sys.platform == 'win32': # Windows
     libraries = ['ws2_32']
 elif sys.platform.startswith('darwin'): # Mac OSX
     macros = dict(
-        HAVE_SEM_OPEN=1,
-        HAVE_SEM_TIMEDWAIT=0,
-        HAVE_FD_TRANSFER=1,
-        HAVE_BROKEN_SEM_GETVALUE=1
+    #    HAVE_SEM_OPEN=1,
+    #    HAVE_SEM_TIMEDWAIT=0,
+    #    HAVE_FD_TRANSFER=1,
+    #    HAVE_BROKEN_SEM_GETVALUE=1
         )
     libraries = []
 elif sys.platform.startswith('cygwin'): # Cygwin
     macros = dict(
-        HAVE_SEM_OPEN=1,
-        HAVE_SEM_TIMEDWAIT=1,
-        HAVE_FD_TRANSFER=0,
-        HAVE_BROKEN_SEM_UNLINK=1
+    #    HAVE_SEM_OPEN=1,
+    #    HAVE_SEM_TIMEDWAIT=1,
+    #    HAVE_FD_TRANSFER=0,
+    #    HAVE_BROKEN_SEM_UNLINK=1
         )
     libraries = []
 elif sys.platform in ('freebsd4', 'freebsd5', 'freebsd6', 'freebsd7', 'freebsd8'):
     # FreeBSD's P1003.1b semaphore support is very experimental
     # and has many known problems. (as of June 2008)
     macros = dict(                  # FreeBSD
-        HAVE_SEM_OPEN=0,
-        HAVE_SEM_TIMEDWAIT=0,
-        HAVE_FD_TRANSFER=1,
+    #    HAVE_SEM_OPEN=0,
+    #    HAVE_SEM_TIMEDWAIT=0,
+    #    HAVE_FD_TRANSFER=1,
         )
     libraries = []
 elif sys.platform.startswith('openbsd'):
     macros = dict(                  # OpenBSD
-        HAVE_SEM_OPEN=0,            # Not implemented
-        HAVE_SEM_TIMEDWAIT=0,
-        HAVE_FD_TRANSFER=1,
+    #    HAVE_SEM_OPEN=0,            # Not implemented
+    #    HAVE_SEM_TIMEDWAIT=0,
+    #    HAVE_FD_TRANSFER=1,
         )
     libraries = []
 else:                                   # Linux and other unices
     macros = dict(
-        HAVE_SEM_OPEN=1,
-        HAVE_SEM_TIMEDWAIT=1,
-        HAVE_FD_TRANSFER=1
+    #    HAVE_SEM_OPEN=1,
+    #    HAVE_SEM_TIMEDWAIT=1,
+    #    HAVE_FD_TRANSFER=1
         )
     libraries = ['rt']
 
@@ -97,6 +100,17 @@ if 0:
     print '\nLibraries:\n\t%r\n' % ', '.join(libraries)
     print '\Sources:\n\t%r\n' % ', '.join(multiprocessing_srcs)
 
+class mp_build_ext(build_ext):
+    def run(self):
+        if sys.platform != 'win32':
+            mpconfig = os.path.join(self.build_temp, 'mpconfig.h')
+            if not os.path.isfile(mpconfig):
+                check_call([os.path.join(HERE, 'configure')], cwd=self.build_temp)
+            self.include_dirs.append(self.build_temp)
+            for ext in self.extensions:
+                ext.depends.append(mpconfig)
+        
+        build_ext.run(self)
 
 extensions = [
     Extension('multiprocessing._multiprocessing',
@@ -105,7 +119,7 @@ extensions = [
               libraries=libraries,
               include_dirs=["Modules/_multiprocessing"],
               depends=(glob.glob('Modules/_multiprocessing/*.h') +
-                       ['setup.py'])
+                       ['setup.py', 'configure'])
               ),
     ]
 
@@ -146,6 +160,7 @@ setup(
     packages=packages,
     package_dir=package_dir,
     ext_modules=extensions,
+    cmdclass = {'build_ext': mp_build_ext},
     author='R Oudkerk / Python Software Foundation',
     author_email='python-dev@python.org',
     maintainer='Christian Heimes',
@@ -164,6 +179,6 @@ setup(
         'Operating System :: POSIX',
         'License :: OSI Approved :: BSD License',
         'Topic :: Software Development :: Libraries :: Python Modules',
-        ]
+        ],
     )
 

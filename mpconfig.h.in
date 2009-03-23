@@ -1,0 +1,31 @@
+/* mpconfig.h.in.  Generated from configure.ac by autoheader.  */
+
+/* Define if 'sem_getvalue' is broken on your platform */
+#undef HAVE_BROKEN_SEM_GETVALUE
+
+/* Define if 'sem_unlink' is broken on your platform */
+#undef HAVE_BROKEN_SEM_UNLINK
+
+/* Define if you have the 'sendmsg' function for fd transfer. */
+#undef HAVE_FD_TRANSER
+
+/* Define if you have the 'sem_open' function. */
+#undef HAVE_SEM_OPEN
+
+/* Define if you have the 'sem_timedwait' function. */
+#undef HAVE_SEM_TIMEDWAIT
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION

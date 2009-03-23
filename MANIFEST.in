@@ -1,6 +1,8 @@
 include *.py
 include *.txt
 include Makefile
+include configure
+include mpconfig.h.in
 recursive-include Lib  *.py
 recursive-include Modules  *.c *.h
 recursive-include Doc  *.rst *.py

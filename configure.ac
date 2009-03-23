@@ -3,7 +3,7 @@
 
 AC_PREREQ(2.61)
 AC_INIT(multiprocessing, 0.0, http://code.google.com/p/python-multiprocessing)
-AC_CONFIG_HEADER([Modules/_multiprocessing/mpconfig.h])
+AC_CONFIG_HEADER([mpconfig.h])
 
 # We don't use PACKAGE_ variables, and they cause conflicts
 # with other autoconf-based packages that include Python.h

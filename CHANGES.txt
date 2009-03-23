@@ -1,6 +1,8 @@
 2.6.1.2 -- unreleased
 ---------------------
 
+ * Added autoconf tests (./configure) to probe for features
+   instead of hard coded values in setup.py.
 
 2.6.1.1 -- 2009-12-07
 ---------------------

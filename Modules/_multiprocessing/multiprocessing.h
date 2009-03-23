@@ -19,6 +19,7 @@
 #  define SEM_HANDLE HANDLE
 #  define SEM_VALUE_MAX LONG_MAX
 #else
+#  include "mpconfig.h"
 #  include <fcntl.h>                 /* O_CREAT and O_EXCL */
 #  include <netinet/in.h>
 #  include <sys/socket.h>

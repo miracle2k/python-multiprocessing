@@ -18,7 +18,7 @@ clean:
 	rm -rf build/sphinx
 
 realclean: clean
-	find . \( -name '*~' -or -name '*.bak' -or -name '*.tmp' \) -exec rm {} \;
+	find . \( -name '*~' -or -name '*.bak' -or -name '*.tmp' -or -name 'mpconfig.h' \) -exec rm {} \;
 	rm -f MANIFEST
 	rm -rf multiprocessing.egg-info
 	rm -rf build/
