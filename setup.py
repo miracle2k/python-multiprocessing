@@ -10,7 +10,7 @@ except ImportError:
     from distutils.core import setup, Extension
 
 # Python.version.number.internal_revision
-VERSION='2.6.1.1+'
+VERSION='2.6.2.1'
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 

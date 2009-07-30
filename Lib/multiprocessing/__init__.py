@@ -40,7 +40,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #
 
-__version__ = '2.6.1.1+'
+__version__ = '2.6.2.0+'
 
 __all__ = [
     'Process', 'current_process', 'active_children', 'freeze_support',
@@ -48,7 +48,7 @@ __all__ = [
     'allow_connection_pickling', 'BufferTooShort', 'TimeoutError',
     'Lock', 'RLock', 'Semaphore', 'BoundedSemaphore', 'Condition',
     'Event', 'Queue', 'JoinableQueue', 'Pool', 'Value', 'Array',
-    'RawValue', 'RawArray'
+    'RawValue', 'RawArray', 'SUBDEBUG', 'SUBWARNING',
     ]
 
 __author__ = 'R. Oudkerk (r.m.oudkerk@gmail.com)'
@@ -65,6 +65,7 @@ import multiprocessing.patch
 multiprocessing.patch.monkey()
 
 from multiprocessing.process import Process, current_process, active_children
+from multiprocessing.util import SUBDEBUG, SUBWARNING
 
 #
 # Exceptions

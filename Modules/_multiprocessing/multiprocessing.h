@@ -16,6 +16,9 @@
 #  include <windows.h>
 #  include <winsock2.h>
 #  include <process.h>		     /* getpid() */
+#  ifdef Py_DEBUG
+#    include <crtdbg.h>
+#  endif
 #  define SEM_HANDLE HANDLE
 #  define SEM_VALUE_MAX LONG_MAX
 #else
@@ -146,16 +149,6 @@ extern HANDLE sigint_event;
 #ifndef Py_TPFLAGS_HAVE_WEAKREFS
 #  define Py_TPFLAGS_HAVE_WEAKREFS 0
 #endif
-
-/*
- * Python 2.5 compatibility
- */
-
-#if PY_VERSION_HEX < 0x02060000
-#else
-#  define HAS_NEW_PY_BUFFER 1
-#endif
-
 
 /*
  * Connection definition
