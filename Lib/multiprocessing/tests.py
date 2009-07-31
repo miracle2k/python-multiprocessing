@@ -17,6 +17,7 @@ import copy
 import socket
 import random
 import logging
+from StringIO import StringIO
 
 
 # Work around broken sem_open implementations
@@ -551,6 +552,11 @@ class _TestLock(BaseTestCase):
         self.assertEqual(lock.release(), None)
         self.assertRaises((AssertionError, RuntimeError), lock.release)
 
+    # Python 2.4 has no with statement
+    #def test_lock_context(self):
+    #    with self.Lock():
+    #        pass
+
 
 class _TestSemaphore(BaseTestCase):
 
@@ -1060,10 +1066,8 @@ class _TestZZZNumberOfObjects(BaseTestCase):
         multiprocessing.active_children()  # discard dead process objs
         gc.collect()                       # do garbage collection
         refs = self.manager._number_of_objects()
-        debug_info = self.manager._debug_info()
         if refs != EXPECTED_NUMBER:
             print self.manager._debug_info()
-            print debug_info
 
         self.assertEqual(refs, EXPECTED_NUMBER)
 
@@ -1191,6 +1195,32 @@ class _TestRemoteManager(BaseTestCase):
 
         # Make queue finalizer run before the server is stopped
         del queue
+        manager.shutdown()
+
+class _TestManagerRestart(BaseTestCase):
+
+    def _putter(self, address, authkey):
+        manager = QueueManager(
+            address=address, authkey=authkey, serializer=SERIALIZER)
+        manager.connect()
+        queue = manager.get_queue()
+        queue.put('hello world')
+
+    def test_rapid_restart(self):
+        authkey = os.urandom(32)
+        manager = QueueManager(
+            address=('localhost', 9999), authkey=authkey, serializer=SERIALIZER)
+        manager.start()
+
+        p = self.Process(target=self._putter, args=(manager.address, authkey))
+        p.start()
+        queue = manager.get_queue()
+        self.assertEqual(queue.get(), 'hello world')
+        del queue
+        manager.shutdown()
+        manager = QueueManager(
+            address=('localhost', 9999), authkey=authkey, serializer=SERIALIZER)
+        manager.start()
         manager.shutdown()
 
 #
@@ -1805,7 +1835,73 @@ class OtherTest(unittest.TestCase):
                           multiprocessing.connection.answer_challenge,
                           _FakeConnection(), 'abc')
 
-testcases_other = [OtherTest, TestInvalidHandle]
+#
+# Issue 5155, 5313, 5331: Test process in processes
+# Verifies os.close(sys.stdin.fileno) vs. sys.stdin.close() behavior
+#
+
+def _ThisSubProcess(q):
+    try:
+        item = q.get(block=False)
+    except Queue.Empty:
+        pass
+
+def _TestProcess(q):
+    queue = multiprocessing.Queue()
+    subProc = multiprocessing.Process(target=_ThisSubProcess, args=(queue,))
+    subProc.start()
+    subProc.join()
+
+def _afunc(x):
+    return x*x
+
+def pool_in_process():
+    pool = multiprocessing.Pool(processes=4)
+    x = pool.map(_afunc, [1, 2, 3, 4, 5, 6, 7])
+
+class _file_like(object):
+    def __init__(self, delegate):
+        self._delegate = delegate
+        self._pid = None
+
+    @property
+    def cache(self):
+        pid = os.getpid()
+        # There are no race conditions since fork keeps only the running thread
+        if pid != self._pid:
+            self._pid = pid
+            self._cache = []
+        return self._cache
+
+    def write(self, data):
+        self.cache.append(data)
+
+    def flush(self):
+        self._delegate.write(''.join(self.cache))
+        self._cache = []
+
+class TestStdinBadfiledescriptor(unittest.TestCase):
+
+    def test_queue_in_process(self):
+        queue = multiprocessing.Queue()
+        proc = multiprocessing.Process(target=_TestProcess, args=(queue,))
+        proc.start()
+        proc.join()
+
+    def test_pool_in_process(self):
+        p = multiprocessing.Process(target=pool_in_process)
+        p.start()
+        p.join()
+
+    def test_flushing(self):
+        sio = StringIO()
+        flike = _file_like(sio)
+        flike.write('foo')
+        proc = multiprocessing.Process(target=lambda: flike.flush())
+        flike.flush()
+        assert sio.getvalue() == 'foo'
+
+testcases_other = [OtherTest, TestInvalidHandle, TestStdinBadfiledescriptor]
 
 #
 #
