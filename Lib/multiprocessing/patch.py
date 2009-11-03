@@ -26,6 +26,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 """Monkey patch collection
 """
+import logging
 import sys
 import threading
 from __builtin__ import property as bltin_property
@@ -60,7 +61,28 @@ class ConditionPatch(object):
     """
     notify_all = threading._Condition.notifyAll.im_func
 
-    
+
+def _check_logger_class():
+         '''
+         Make sure process name is recorded when loggers are used
+         '''
+
+         from multiprocessing.process import current_process
+         logging._acquireLock()
+         try:
+             OldLoggerClass = logging.getLoggerClass()
+             if not getattr(OldLoggerClass, '_process_aware', False):
+                 class ProcessAwareLogger(OldLoggerClass):
+                     _process_aware = True
+                     def makeRecord(self, *args, **kwds):
+                         record = OldLoggerClass.makeRecord(self, *args, **kwds)
+                         record.processName = current_process()._name
+                         return record
+                 logging.setLoggerClass(ProcessAwareLogger)
+         finally:
+             logging._releaseLock()
+
+
 def monkey():
     """Monkey patch
     """
@@ -81,3 +103,6 @@ def monkey():
         threading._Condition.__bases__ += (ConditionPatch,)
         
     threading.current_thread = threading.currentThread
+
+    _check_logger_class()
+
